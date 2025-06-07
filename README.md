@@ -16,9 +16,42 @@ This application has several components:
 | Footer                      | https://getbootstrap.com/docs/5.3/examples/footers/|
 | Sign In and Register        | https://getbootstrap.com/docs/5.3/examples/sign-in/|
 
+
+## How to enable SSL
+
+The application can start an HTTPS server on 8443 by having the following configuration in [`application.properties`](src/main/resources/application.properties)
+
+```properties
+server.ssl.bundle=game
+spring.ssl.bundle.jks.game.keystore.location=current/server.p12
+spring.ssl.bundle.jks.game.keystore.password=changeit
+spring.ssl.bundle.jks.game.keystore.type=PKCS12
+spring.ssl.bundle.jks.game.key.alias=server
+spring.ssl.bundle.jks.game.key.password=changeit
+```
+
+The application will use TLS from the configured SSL bundle named `game`.
+
+Run [setup-ssl.sh](current/setup-ssl.sh) to obtain a a hybrid keystore (`server.p12`) that contains:
+* a classical EC keypair and certificate (using `ECDSA`)
+* a post-quantum keypair and certificate using `ML-DSA-44`
+
+Based on the value (`server` or `server-mlkem`) given to `spring.ssl.bundle.jks.game.key.alias`, the respective keypair will be selected in TLS handshakes.
+Currently, the TLS handshake succeeds for `spring.ssl.bundle.jks.game.key.alias=server`.
+
 ## How to create the keystore and truststore
 
-In order to build an example keystore and truststore, run the script from [current/setup.sh](current/setup.sh)
+
+In order to build an example keystore and truststore, run the script from [current/setup-mtls.sh](current/setup-mtls.sh)
+
+For mTLS, add the following lines to the existing bundle:
+
+```properties
+server.ssl.bundle=game
+server.ssl.client-auth=need
+spring.ssl.bundle.jks.game.truststore.location=current/client.p12
+spring.ssl.bundle.jks.game.truststore.password=changeit
+```
 
 **IMPORTANT** For demo purposes, `application.properties` contains the passwords in clear. 
 For production environments you must consider encrypting your passwords.

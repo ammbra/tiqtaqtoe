@@ -10,9 +10,7 @@ CLIENT_ALIAS="client"
 TRUSTSTORE="truststore.p12"
 CLIENT_CSR="client.csr"
 
-rm -f ca.p12 server.p12 $TRUSTSTORE client.p12 \
-      $CLIENT_CSR ca.crt ca.key client-signed.crt ca.srl \
-      server.csr server-signed.crt
+rm -f *.csr *.crt *.key *.srl *.p12 *.jks
 
 echo "🔐 [1/9] Creating CA keypair and self-signed certificate..."
 keytool -genkeypair \
@@ -41,7 +39,7 @@ keytool -keystore server.p12 \
     -storepass $PASSWORD \
     -genkeypair -alias server-mlkem \
     -keyalg ML-KEM-768 \
-    -dname "CN=MyCA, OU=Test, O=MyOrg, L=City, ST=State, C=US" \
+    -dname "CN=localhost, OU=Dev, O=MyOrg, L=City, ST=State, C=US" \
     -signer $SERVER_ALIAS
 
 keytool -certreq \
@@ -61,10 +59,11 @@ keytool -exportcert \
   -file ca.crt
 
 echo "🔓 [4/9] Extracting CA private key for signing..."
-openssl pkcs12 -in ca.p12 -nocerts -nodes -passin pass:$PASSWORD -out ca.key
+openssl pkcs12 -in ca.p12 -provider default -nocerts -nodes -passin pass:$PASSWORD -out ca.key
 
 echo "✍️ [5/9] Signing SERVER CSR with CA..."
 openssl x509 -req \
+  -provider default \
   -in server.csr \
   -CA ca.crt \
   -CAkey ca.key \
@@ -100,6 +99,13 @@ keytool -genkeypair \
   -storepass $PASSWORD \
   -keypass $PASSWORD
 
+keytool -keystore client.p12 \
+    -storepass $PASSWORD \
+    -genkeypair -alias client-mlkem \
+    -keyalg ML-KEM-768 \
+    -dname "CN=Ana, OU=Client, O=MyOrg, L=City, ST=State, C=US" \
+    -signer $SERVER_ALIAS
+
 keytool -certreq \
   -alias $CLIENT_ALIAS \
   -keystore client.p12 \
@@ -109,6 +115,7 @@ keytool -certreq \
 
 echo "✍️ [8/9] Signing CLIENT CSR with CA..."
 openssl x509 -req \
+  -provider default \
   -in $CLIENT_CSR \
   -CA ca.crt \
   -CAkey ca.key \
