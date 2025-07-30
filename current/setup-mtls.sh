@@ -40,6 +40,7 @@ keytool -keystore server.p12 \
     -genkeypair -alias server-mlkem \
     -keyalg ML-KEM-768 \
     -dname "CN=localhost, OU=Dev, O=MyOrg, L=City, ST=State, C=US" \
+    -validity 365 \
     -signer $SERVER_ALIAS
 
 keytool -certreq \
@@ -62,15 +63,13 @@ echo "🔓 [4/9] Extracting CA private key for signing..."
 openssl pkcs12 -in ca.p12 -provider default -nocerts -nodes -passin pass:$PASSWORD -out ca.key
 
 echo "✍️ [5/9] Signing SERVER CSR with CA..."
-openssl x509 -req \
-  -provider default \
-  -in server.csr \
-  -CA ca.crt \
-  -CAkey ca.key \
-  -CAcreateserial \
-  -out server-signed.crt \
-  -days 365 \
-  -sha256
+keytool -gencert -infile server.csr \
+  -outfile server-signed.crt \
+  -alias $CA_ALIAS \
+  -keystore ca.p12 \
+  -storepass $PASSWORD \
+  -validity 365 \
+  -sigalg SHA256withECDSA
 
 echo "📥 [6/9] Importing CA and signed server certificate into server.p12..."
 keytool -importcert \
@@ -104,7 +103,7 @@ keytool -keystore client.p12 \
     -genkeypair -alias client-mlkem \
     -keyalg ML-KEM-768 \
     -dname "CN=Ana, OU=Client, O=MyOrg, L=City, ST=State, C=US" \
-    -signer $SERVER_ALIAS
+    -signer $CLIENT_ALIAS
 
 keytool -certreq \
   -alias $CLIENT_ALIAS \
@@ -114,15 +113,14 @@ keytool -certreq \
   -file $CLIENT_CSR
 
 echo "✍️ [8/9] Signing CLIENT CSR with CA..."
-openssl x509 -req \
-  -provider default \
-  -in $CLIENT_CSR \
-  -CA ca.crt \
-  -CAkey ca.key \
-  -CAcreateserial \
-  -out client-signed.crt \
-  -days 365 \
-  -sha256
+
+keytool -gencert -infile client.csr \
+  -outfile client-signed.crt \
+  -alias $CA_ALIAS \
+  -keystore ca.p12 \
+  -storepass $PASSWORD \
+  -validity 365 \
+  -sigalg SHA256withECDSA
 
 echo "📥 [9/9] Importing CA and signed client certificate into client.p12..."
 keytool -importcert \

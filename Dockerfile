@@ -16,7 +16,7 @@ ENV PATH $JAVA_HOME/bin:$PATH
 COPY --from=jre-build /javaruntime $JAVA_HOME
 
 # Continue with your application deployment
-COPY ./target/tictactoe.jar /app.jar
+COPY ./target/tiqtaqtoe.jar /app.jar
 COPY entrypoint.sh /entrypoint.sh
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser && chmod +x /entrypoint.sh
