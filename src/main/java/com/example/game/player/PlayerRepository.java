@@ -8,5 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    Player findByUsername(String username);
+	Player findByUsername(String username);
+
 }

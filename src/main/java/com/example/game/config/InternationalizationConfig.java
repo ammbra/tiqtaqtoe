@@ -10,10 +10,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
 public class InternationalizationConfig implements WebMvcConfigurer {
-   @Bean
-   public LocaleResolver localeResolver() {
-      SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-      sessionLocaleResolver.setDefaultLocale(Locale.US);
-      return sessionLocaleResolver;
-   }
+
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+		sessionLocaleResolver.setDefaultLocale(Locale.US);
+		return sessionLocaleResolver;
+	}
+
 }

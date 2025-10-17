@@ -15,7 +15,7 @@
     <name>tictactoe</name>
     <description>Quantum TicTacToe</description>
     <properties>
-        <java.version>24</java.version>
+        <java.version>25</java.version>
         <maven.dependency.plugin.version>3.5.0</maven.dependency.plugin.version>
         <jackson.databind.version>2.15.2</jackson.databind.version>
     </properties>

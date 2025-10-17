@@ -12,30 +12,34 @@ import java.util.List;
 
 public class ListConverter implements AttributeConverter<List<List<String>>, String> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ListConverter.class);
+	private static final Logger logger = LoggerFactory.getLogger(ListConverter.class);
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    public String convertToDatabaseColumn(List<List<String>> lines) {
-        String json = null;
-        try {
-            json = objectMapper.writeValueAsString(lines);
-        } catch (final JsonProcessingException e) {
-            logger.error("Error when writing JSON", e);
-        }
+	@Override
+	public String convertToDatabaseColumn(List<List<String>> lines) {
+		String json = null;
+		try {
+			json = objectMapper.writeValueAsString(lines);
+		}
+		catch (final JsonProcessingException e) {
+			logger.error("Error when writing JSON", e);
+		}
 
-        return json;
-    }
+		return json;
+	}
 
-    @Override
-    public List<List<String>> convertToEntityAttribute(String json) {
-        List<List<String>> lines = null;
-        try {
-            lines = objectMapper.readValue(json, new TypeReference<>() {});
-        } catch (final IOException e) {
-            logger.error("Error when reading JSON", e);
-        }
-        return lines;
-    }
+	@Override
+	public List<List<String>> convertToEntityAttribute(String json) {
+		List<List<String>> lines = null;
+		try {
+			lines = objectMapper.readValue(json, new TypeReference<>() {
+			});
+		}
+		catch (final IOException e) {
+			logger.error("Error when reading JSON", e);
+		}
+		return lines;
+	}
+
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
 
 	public static final String LOGIN = "login";
+
 	public static final String REGISTER = "register";
 
 	private final PlayerDetailsService playerDetailsService;
@@ -23,31 +24,33 @@ public class LoginController {
 		this.playerDetailsService = playerDetailsService;
 	}
 
-	@RequestMapping(value="/user", method = RequestMethod.GET)
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public String redirect() {
 		return LOGIN;
 	}
 
-	@RequestMapping(value="/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return LOGIN;
 	}
 
-	@RequestMapping(value="/register", method = RequestMethod.GET)
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register() {
 		return REGISTER;
 	}
 
-	@RequestMapping(value="/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@Valid Player player, Model model) {
 		try {
 			playerDetailsService.loadUserByUsername(player.getUsername());
 			model.addAttribute("invalid", "Username already acquired. Please use another username");
 			return REGISTER;
-		} catch (UsernameNotFoundException ex) {
+		}
+		catch (UsernameNotFoundException ex) {
 			playerDetailsService.save(player);
 			return LOGIN;
 		}
 
 	}
+
 }

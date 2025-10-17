@@ -31,4 +31,5 @@ class CellManagerTest {
 		assertThat(allLines.size()).isEqualTo(8);
 
 	}
+
 }

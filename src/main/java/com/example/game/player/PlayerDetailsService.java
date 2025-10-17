@@ -1,6 +1,5 @@
 package com.example.game.player;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -22,7 +21,6 @@ public class PlayerDetailsService implements UserDetailsService {
 	public static final String USER_AUTHORITY = "USER";
 
 	public static final PasswordEncoder CRYPT_PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
 
 	private final PlayerRepository repository;
 
@@ -52,4 +50,5 @@ public class PlayerDetailsService implements UserDetailsService {
 		player.setPassword(encodedPassword);
 		return repository.save(player);
 	}
+
 }

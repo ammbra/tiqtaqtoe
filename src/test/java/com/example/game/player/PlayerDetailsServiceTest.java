@@ -18,11 +18,11 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
 class PlayerDetailsServiceTest {
 
 	private static final String USERNAME = "test";
+
 	private static final String PASSWORD = "password";
 
 	private PlayerDetailsService service;
@@ -61,8 +61,8 @@ class PlayerDetailsServiceTest {
 		when(repository.findByUsername(anyString())).thenReturn(null);
 
 		assertThatThrownBy(() -> service.loadUserByUsername(player.getUsername()))
-				.isInstanceOf(UsernameNotFoundException.class)
-				.hasMessage("Invalid username: %s", player.getUsername());
+			.isInstanceOf(UsernameNotFoundException.class)
+			.hasMessage("Invalid username: %s", player.getUsername());
 	}
 
 	@Test
@@ -70,10 +70,9 @@ class PlayerDetailsServiceTest {
 		when(repository.findByUsername(anyString())).thenReturn(null);
 		Principal principal = () -> player.getUsername();
 		assertThatThrownBy(() -> service.extractPlayer(principal.getName()))
-				.isInstanceOf(UsernameNotFoundException.class)
-				.hasMessage("Invalid username: %s", player.getUsername());
+			.isInstanceOf(UsernameNotFoundException.class)
+			.hasMessage("Invalid username: %s", player.getUsername());
 	}
-
 
 	@Test
 	void extractPlayer() {
@@ -91,6 +90,5 @@ class PlayerDetailsServiceTest {
 		Player result = service.save(player);
 		verify(repository).save(player);
 	}
-
 
 }

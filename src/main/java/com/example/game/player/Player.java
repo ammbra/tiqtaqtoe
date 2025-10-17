@@ -1,19 +1,18 @@
 package com.example.game.player;
 
-
 import jakarta.persistence.*;
 
 @Entity
 public class Player {
 
 	public enum Type {
-		PERSON,
-		NONE,
-		AI;
+
+		PERSON, NONE, AI;
+
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String username;
@@ -22,7 +21,6 @@ public class Player {
 
 	@Enumerated(EnumType.STRING)
 	private Type type;
-
 
 	public void setId(Long id) {
 		this.id = id;

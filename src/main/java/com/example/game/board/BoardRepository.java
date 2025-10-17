@@ -9,6 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    Board findFirstByPlayerOrderByCreatedOnDesc(Player player);
+	Board findFirstByPlayerOrderByCreatedOnDesc(Player player);
 
 }

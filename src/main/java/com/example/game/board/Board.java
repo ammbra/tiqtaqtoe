@@ -13,81 +13,81 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 public class Board {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @ManyToOne
-    private Player player;
+	@ManyToOne
+	private Player player;
 
-    private Type next;
+	private Type next;
 
-    private Status status;
+	private Status status;
 
-    private Cell option;
+	private Cell option;
 
-    @Convert(converter = ListConverter.class)
-    private List<List<String>> lines;
+	@Convert(converter = ListConverter.class)
+	private List<List<String>> lines;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_on", nullable = false, updatable = false)
-    @CreationTimestamp
-    private Date createdOn;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_on", nullable = false, updatable = false)
+	@CreationTimestamp
+	private Date createdOn;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Player getPlayer() {
-        return player;
-    }
+	public Player getPlayer() {
+		return player;
+	}
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
-    public Type getNext() {
-        return next;
-    }
+	public Type getNext() {
+		return next;
+	}
 
-    public void setNext(Type next) {
-        this.next = next;
-    }
+	public void setNext(Type next) {
+		this.next = next;
+	}
 
-    public Status getStatus() {
-        return status;
-    }
+	public Status getStatus() {
+		return status;
+	}
 
-    public Cell getOption() {
-        return option;
-    }
+	public Cell getOption() {
+		return option;
+	}
 
-    public void setOption(Cell option) {
-        this.option = option;
-    }
+	public void setOption(Cell option) {
+		this.option = option;
+	}
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 
-    public List<List<String>> getLines() {
-        return lines;
-    }
+	public List<List<String>> getLines() {
+		return lines;
+	}
 
-    public void setLines(List<List<String>> lines) {
-        this.lines = lines;
-    }
+	public void setLines(List<List<String>> lines) {
+		this.lines = lines;
+	}
 
+	public Date getCreatedOn() {
+		return createdOn;
+	}
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
 }

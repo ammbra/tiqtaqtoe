@@ -11,12 +11,14 @@ RUN $JAVA_HOME/bin/jlink \
 # Define your base image
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
+ARG JAR_FILE=target/*.jar
+
 ENV JAVA_HOME /usr/java/openjdk-24
 ENV PATH $JAVA_HOME/bin:$PATH
 COPY --from=jre-build /javaruntime $JAVA_HOME
 
 # Continue with your application deployment
-COPY ./target/tiqtaqtoe.jar /app.jar
+COPY ${JAR_FILE} app.jar
 COPY entrypoint.sh /entrypoint.sh
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser && chmod +x /entrypoint.sh

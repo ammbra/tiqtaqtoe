@@ -1,11 +1,8 @@
 package com.example.game.board.cell;
 
-
 public enum Cell {
 
-	EMPTY(""),
-	X("x"),
-	O("o");
+	EMPTY(""), X("x"), O("o");
 
 	private final String content;
 
@@ -17,4 +14,5 @@ public enum Cell {
 	public String toString() {
 		return content;
 	}
+
 }

@@ -5,7 +5,6 @@ import com.example.game.board.cell.CellManager;
 import com.example.game.player.Player;
 import org.junit.jupiter.api.Test;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -50,7 +49,6 @@ class BoardServiceTest {
 		verify(repository).save(any());
 	}
 
-
 	@Test
 	void findPreviousMatch() {
 		Player player = new Player();
@@ -76,12 +74,12 @@ class BoardServiceTest {
 		when(cellManager.init()).thenCallRealMethod();
 
 		Board board = service.build(new Player(), Cell.X);
-		service.move(board, new Coordinate(1,1));
+		service.move(board, new Coordinate(1, 1));
 
 		assertThat(board.getNext()).isEqualTo(Player.Type.PERSON);
 		assertThat(board.getStatus()).isEqualTo(Status.ACTIVE);
 
-		service.move(board, new Coordinate(0,1));
+		service.move(board, new Coordinate(0, 1));
 
 		assertThat(board.getNext()).isEqualTo(Player.Type.AI);
 		assertThat(board.getStatus()).isEqualTo(Status.ACTIVE);
@@ -94,7 +92,7 @@ class BoardServiceTest {
 		Board board = service.build(new Player(), Cell.X);
 		board.getLines().set(0, Arrays.asList("x", "x", ""));
 		board.setNext(Player.Type.PERSON);
-		service.move(board, new Coordinate(0,2));
+		service.move(board, new Coordinate(0, 2));
 
 		assertThat(board.getNext()).isEqualTo(Player.Type.NONE);
 		assertThat(board.getStatus()).isEqualTo(Status.PERSON_WIN);
@@ -109,7 +107,7 @@ class BoardServiceTest {
 		board.getLines().set(1, Arrays.asList("x", "o", "x"));
 		board.getLines().set(2, Arrays.asList("", "o", "o"));
 
-		service.move(board, new Coordinate(0,2));
+		service.move(board, new Coordinate(0, 2));
 
 		assertThat(board.getNext()).isEqualTo(Player.Type.NONE);
 		assertThat(board.getStatus()).isEqualTo(Status.AI_WIN);
@@ -124,9 +122,10 @@ class BoardServiceTest {
 		board.getLines().set(1, Arrays.asList("x", "o", "o"));
 		board.getLines().set(2, Arrays.asList("o", "", "x"));
 
-		service.move(board, new Coordinate(2,1));
+		service.move(board, new Coordinate(2, 1));
 
 		assertThat(board.getNext()).isEqualTo(Player.Type.PERSON);
 		assertThat(board.getStatus()).isEqualTo(Status.TIE);
 	}
+
 }

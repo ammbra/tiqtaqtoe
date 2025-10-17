@@ -30,7 +30,12 @@ spring.ssl.bundle.jks.game.key.alias=server
 spring.ssl.bundle.jks.game.key.password=changeit
 ```
 
-In order to build an example keystore and truststore, run the script from [current/setup-mtls.sh](current/setup-mtls.sh)
+To build an example keystore and truststore, run the script from [current/setup-mtls.sh](current/setup-mtls.sh) in the `current` directory:
+
+```shell
+cd current
+sh setup-mtls.sh
+````
 
 For mTLS, add the following lines to the existing bundle:
 
@@ -46,8 +51,7 @@ For production environments you must consider encrypting your passwords.
 
 ## How to play
 
-You can start the application locally
-from your IDE or by running the following command in a terminal window:
+You can start the application locally from your IDE or by running the following command in a terminal window, while placed in the root folder of the project:
 
 ```
 ./mvnw spring-boot:run
@@ -70,5 +74,5 @@ You can deploy the application locally via Docker Compose. First build the appli
 If you wish to deploy in other environments, you can always build and push a docker image using:
 
 ```
-docker buildx build --platform=linux/amd64  --tag <registry>/<username>/tictactoe:1.0 . --no-cache
+docker buildx build --build-arg JAR_FILE=target/tiqtaqtoe.jar --platform=linux/amd64  --tag <registry>/<username>/tictactoe:1.0 . --no-cache
 ```

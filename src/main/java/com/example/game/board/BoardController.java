@@ -1,6 +1,5 @@
 package com.example.game.board;
 
-
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +22,8 @@ public class BoardController {
 
 	private final PlayerDetailsService playerDetailsService;
 
-	private record Match(String coordinate, boolean again) {}
+	private record Match(String coordinate, boolean again) {
+	}
 
 	@Autowired
 	public BoardController(BoardService boardService, PlayerDetailsService playerDetailsService) {
@@ -53,8 +53,9 @@ public class BoardController {
 		Board board;
 		if (match.again()) {
 			board = boardService.build(player, Cell.X);
-			boardService.move(board, new Coordinate(1,1));
-		} else {
+			boardService.move(board, new Coordinate(1, 1));
+		}
+		else {
 			String[] coordinates = match.coordinate.split(":");
 			Coordinate coordinate = new Coordinate(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
 			board = boardService.findPreviousMatch(player);
@@ -69,7 +70,8 @@ public class BoardController {
 	}
 
 	private void placeGameAttributes(Model model, Board board) {
-		record Game(List<List<String>> lines, Status status, boolean humanTurn) { }
+		record Game(List<List<String>> lines, Status status, boolean humanTurn) {
+		}
 
 		boolean humanTurn = (Player.Type.PERSON == board.getNext());
 		Game game = new Game(board.getLines(), board.getStatus(), humanTurn);
@@ -77,5 +79,3 @@ public class BoardController {
 	}
 
 }
-
-
